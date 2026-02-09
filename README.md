@@ -1,1 +1,207 @@
-# nvitacion-valentin
+# invitacion-valentin
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de San Valentín</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6f2;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .invitation {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        #greeting {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        #questionIntro {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        #questionBox {
+            background-color: #f8e8e8; /* Rosa crema */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 22px;
+            color: #333;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        #yes {
+            background-color: #ff69b4;
+            color: Pink;
+            animation: pulse 1s infinite;
+        }
+        #no {
+            background-color: #ccc;
+            color: black;
+        }
+        #response {
+            font-size: 18px;
+            color: #ff1493;
+            margin-top: 10px;
+            height: 30px;
+        }
+        #roses {
+            display: none;
+            font-size: 50px;
+            color: #ff1493;
+            margin-top: 20px;
+            animation: fadeIn 2s ease-in-out, float 3s ease-in-out infinite;
+        }
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: #ff69b4;
+            animation: fall 5s linear infinite;
+        }
+        .confetti {
+            position: absolute;
+            font-size: 20px;
+            color: #ff1493;
+            animation: confettiFall 3s linear infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes fall {
+            from { top: -50px; opacity: 1; }
+            to { top: 100vh; opacity: 0; }
+        }
+        @keyframes confettiFall {
+            from { top: -50px; left: 50%; opacity: 1; }
+            to { top: 100vh; left: calc(50% + 100px); opacity: 0; }
+        }
+        /* Responsividad para móviles */
+        @media (max-width: 600px) {
+            .invitation {
+                padding: 20px;
+                max-width: 90%;
+            }
+            #greeting {
+                font-size: 20px;
+            }
+            #questionIntro {
+                font-size: 18px;
+            }
+            #questionBox {
+                font-size: 20px;
+                padding: 10px;
+            }
+            button {
+                font-size: 18px;
+                padding: 8px 16px;
+            }
+            #roses {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation">
+        <div id="greeting">
+            Aloh Estephania 🌹
+        </div>
+        <div id="questionIntro">
+            Julian Tiene una pregunta........
+        </div>
+        <div id="questionBox">
+            ¿Quieres ser su San Valentín?
+        </div>
+        <button id="yes">Sí</button>
+        <button id="no">No</button>
+        <div id="response"></div>
+        <div id="roses">🌹🌹🌹 Preparate ya tienes una cita programada Te amo ❤️❤️❤️</div>
+    </div>
+
+    <!-- Audio de fondo (opcional, puede requerir interacción en algunos navegadores) -->
+    <audio id="romanticMusic" autoplay loop>
+        <source src="https://www.soundjay.com/misc/sounds/cant-help-falling-in-love.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <script>
+        let yesSize = 1;
+        const yesButton = document.getElementById('yes');
+        const noButton = document.getElementById('no');
+        const responseDiv = document.getElementById('response');
+        const roses = document.getElementById('roses');
+        const responses = [
+            "¿No es mejor el sí?",
+            "Elige otra vez corazón",
+            "Vamos mi bonita",
+            "Yo se lo que quieres"
+        ];
+        let responseIndex = 0;
+
+        // Crear corazones cayendo
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 1000);
+
+        noButton.addEventListener('click', () => {
+            yesSize += 0.2;
+            yesButton.style.transform = `scale(${yesSize})`;
+            yesButton.style.fontSize = `${20 * yesSize}px`;
+            responseDiv.textContent = responses[responseIndex % responses.length];
+            responseIndex++;
+        });
+
+        yesButton.addEventListener('click', () => {
+            roses.style.display = 'block';
+            yesButton.style.transform = 'scale(1)';
+            yesButton.style.fontSize = '20px';
+            yesSize = 1;
+            responseDiv.textContent = '';
+            // Crear confeti
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = '🎉';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        });
+    </script>
+</body>
+</html>
